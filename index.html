@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WW2 GUERRA MUNDIAL LAC | OFICIAL</title>
+    <style>
+        /* CSS ORIGINAL MANTIDO E OTIMIZADO */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; font-weight: bold; }
+        body { background-color: #050505; color: #00ff41; overflow-x: hidden; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 2px solid #00ff41; box-shadow: 0 0 15px #00ff4133; background: rgba(0, 0, 0, 0.9); position: sticky; top: 0; z-index: 100; }
+        .nav-icons { display: flex; gap: 20px; font-size: 24px; }
+        .icon-btn { cursor: pointer; transition: 0.3s; }
+        .icon-btn:hover { color: #fff; text-shadow: 0 0 10px #00ff41; }
+        .discord-btn { background: #5865F2; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; display: flex; align-items: center; gap: 10px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 70% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0a0a0a; border: 2px solid #00ff41; padding: 20px; z-index: 1000; width: 95%; max-width: 500px; }
+        .modal-header { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid #004411; }
+        input, textarea, button { width: 100%; background: #000; border: 1px solid #00ff41; color: #00ff41; padding: 10px; margin: 5px 0; font-weight: bold; }
+        button { cursor: pointer; transition: 0.2s; }
+        button:hover { background: #00ff41; color: #000; }
+        .post { background: rgba(0, 50, 0, 0.1); border: 1px solid #004411; padding: 20px; margin-bottom: 20px; border-radius: 4px; }
+        .tag-admin { background: #00ff41; color: #000; padding: 2px 8px; font-size: 12px; border-radius: 3px; }
+        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 999; }
+        #adminChat { max-height: 200px; overflow-y: auto; background: #000; padding: 10px; border: 1px solid #004411; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div id="overlay"></div>
+
+<header>
+    <div class="nav-icons">
+        <span class="icon-btn" id="btnAvisos">🔔</span>
+        <span class="icon-btn" id="btnAdmin">⚙️</span>
+    </div>
+    <h1>WW2 LAC</h1>
+    <div class="nav-icons">
+        <span class="icon-btn" id="btnSugestao">💡</span>
+        <span class="icon-btn" id="btnDenuncia">🚨</span>
+        <a href="https://discord.gg/a8eXyK4a7" target="_blank" class="discord-btn">DISCORD</a>
+    </div>
+</header>
+
+<div class="container">
+    <div id="mainFeed" class="feed">
+        </div>
+</div>
+
+<div id="modalAvisos" class="modal">
+    <div class="modal-header"><h3>AVISOS DA STAFF</h3><button class="close">X</button></div>
+    <div id="listaAvisos">Carregando avisos...</div>
+</div>
+
+<div id="modalSugestao" class="modal">
+    <div class="modal-header"><h3>SUGESTÃO</h3><button class="close">X</button></div>
+    <input type="text" id="sugTitle" placeholder="Título">
+    <textarea id="sugDesc" placeholder="Sua sugestão"></textarea>
+    <button id="sendSugestao">ENVIAR</button>
+</div>
+
+<div id="modalDenuncia" class="modal">
+    <div class="modal-header"><h3>DENÚNCIA</h3><button class="close">X</button></div>
+    <input type="text" id="denNome" placeholder="Nome do Infrator">
+    <textarea id="denMotivo" placeholder="O que aconteceu?"></textarea>
+    <button id="sendDenuncia">PROTOCOLAR</button>
+</div>
+
+<div id="modalAdmin" class="modal">
+    <div class="modal-header"><h3>COMANDO CENTRAL</h3><button class="close">X</button></div>
+    <div id="adminChat"></div>
+    <input type="text" id="adminMsg" placeholder="Conversar com staff...">
+    <button id="btnChatAdmin">ENVIAR NO CHAT</button>
+    <hr style="border: 1px solid #004411; margin: 10px 0;">
+    <input type="text" id="postTitle" placeholder="Título do Post">
+    <textarea id="postContent" placeholder="Texto da Atualização"></textarea>
+    <button id="btnCreatePost">PUBLICAR NO SITE</button>
+</div>
+
+<script type="module">
+    // IMPORTAÇÃO DO FIREBASE
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAs0eBwIlKmpcouUvVa8TF2_ke0t9QD6QE",
+        authDomain: "ww2-6c783.firebaseapp.com",
+        projectId: "ww2-6c783",
+        storageBucket: "ww2-6c783.firebasestorage.app",
+        messagingSenderId: "178695207566",
+        appId: "1:178695207566:web:c93cf5dea461664d5ae7df"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // FUNÇÕES DE INTERFACE
+    const overlay = document.getElementById('overlay');
+    const closeBtns = document.querySelectorAll('.close');
+
+    const openModal = (id) => { 
+        overlay.style.display = 'block'; 
+        document.getElementById(id).style.display = 'block'; 
+    };
+
+    const closeAll = () => { 
+        overlay.style.display = 'none'; 
+        document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); 
+    };
+
+    overlay.onclick = closeAll;
+    closeBtns.forEach(btn => btn.onclick = closeAll);
+
+    document.getElementById('btnAvisos').onclick = () => openModal('modalAvisos');
+    document.getElementById('btnSugestao').onclick = () => openModal('modalSugestao');
+    document.getElementById('btnDenuncia').onclick = () => openModal('modalDenuncia');
+
+    document.getElementById('btnAdmin').onclick = () => {
+        if (prompt("SENHA DE ACESSO:") === "2012") openModal('modalAdmin');
+        else alert("ACESSO NEGADO");
+    };
+
+    // LÓGICA DO FEED (POSTAGENS)
+    const postCol = collection(db, "posts");
+    document.getElementById('btnCreatePost').onclick = async () => {
+        const title = document.getElementById('postTitle').value;
+        const text = document.getElementById('postContent').value;
+        if(title && text) {
+            await addDoc(postCol, { title, text, date: Date.now() });
+            alert("Postado com sucesso!");
+            closeAll();
+        }
+    };
+
+    onSnapshot(query(postCol, orderBy("date", "desc")), (snapshot) => {
+        const feed = document.getElementById('mainFeed');
+        feed.innerHTML = '';
+        snapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            feed.innerHTML += `
+                <div class="post">
+                    <span class="tag-admin"> STAFF </span>
+                    <h2>${data.title}</h2>
+                    <p>${data.text}</p>
+                </div>
+            `;
+        });
+    });
+
+    // LÓGICA DO CHAT ADMIN
+    const chatCol = collection(db, "adminChat");
+    document.getElementById('btnChatAdmin').onclick = async () => {
+        const msg = document.getElementById('adminMsg').value;
+        if(msg) {
+            await addDoc(chatCol, { msg, date: Date.now() });
+            document.getElementById('adminMsg').value = '';
+        }
+    };
+
+    onSnapshot(query(chatCol, orderBy("date", "asc")), (snapshot) => {
+        const chatBox = document.getElementById('adminChat');
+        chatBox.innerHTML = '';
+        snapshot.forEach(d => {
+            chatBox.innerHTML += `<p style="margin-bottom:5px">> ${d.data().msg}</p>`;
+        });
+        chatBox.scrollTop = chatBox.scrollHeight;
+    });
+
+    // ENVIAR SUGESTÕES E DENÚNCIAS
+    document.getElementById('sendSugestao').onclick = async () => {
+        await addDoc(collection(db, "sugestoes"), { 
+            t: document.getElementById('sugTitle').value, 
+            d: document.getElementById('sugDesc').value 
+        });
+        alert("Sugestão enviada!");
+        closeAll();
+    };
+    
+    document.getElementById('sendDenuncia').onclick = async () => {
+        await addDoc(collection(db, "denuncias"), { 
+            n: document.getElementById('denNome').value, 
+            m: document.getElementById('denMotivo').value 
+        });
+        alert("Denúncia enviada!");
+        closeAll();
+    };
+
+</script>
+</body>
+</html>
