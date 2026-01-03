@@ -7,42 +7,94 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --war-orange: #ff6600; --dark-gray: #1a1a1a; --black: #0a0a0a; --text-shadow: 0 0 10px rgba(255, 102, 0, 0.5); --green: #00ff00; --red: #ff0000; }
+        :root { --war-orange: #ff6600; --dark-gray: #1a1a1a; --black: #0a0a0a; --text-shadow: 0 0 10px rgba(255, 102, 0, 0.5); }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', sans-serif; font-weight: 900; }
+        
         body { background: var(--black); color: var(--war-orange); overflow-x: hidden; }
 
-        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        /* LOADING SCREEN */
+        #loading-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+        }
         .load-bar { width: 250px; height: 10px; background: #222; border: 1px solid var(--war-orange); margin-top: 20px; overflow: hidden; }
         .load-progress { width: 0%; height: 100%; background: var(--war-orange); box-shadow: 0 0 15px var(--war-orange); animation: fill 5s linear forwards; }
         @keyframes fill { to { width: 100%; } }
 
-        #auth-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--black); z-index: 9998; display: none; padding: 20px; justify-content: center; align-items: center; }
+        /* LOGIN OVERLAY */
+        #auth-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--black); z-index: 9998; display: none; padding: 20px;
+            justify-content: center; align-items: center;
+        }
 
-        header { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; border-bottom: 2px solid var(--war-orange); background: rgba(10,10,10,0.95); position: sticky; top: 0; z-index: 100; }
+        /* HEADER RESPONSIVO */
+        header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 10px 15px; border-bottom: 2px solid var(--war-orange); 
+            background: rgba(10,10,10,0.95); position: sticky; top: 0; z-index: 100;
+        }
+
         .nav-icons { display: flex; gap: 12px; align-items: center; }
         .icon-btn { cursor: pointer; font-size: 20px; transition: 0.3s; color: var(--war-orange); }
         .icon-btn:hover { transform: scale(1.1); filter: brightness(1.5); }
 
-        .discord-link { background: #5865F2; color: white !important; text-decoration: none; padding: 6px 10px; border-radius: 4px; display: flex; align-items: center; gap: 5px; font-size: 11px; text-transform: uppercase; white-space: nowrap; }
+        /* CORREÇÃO DO DISCORD MOBILE */
+        .discord-link {
+            background: #5865F2;
+            color: white !important;
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
         .discord-link i { font-size: 14px; }
 
         .container { padding: 15px; max-width: 600px; margin: 0 auto; animation: fadeIn 1s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .post { background: var(--dark-gray); border-left: 5px solid var(--war-orange); padding: 15px; margin-bottom: 20px; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; }
+        .post { 
+            background: var(--dark-gray); border-left: 5px solid var(--war-orange); 
+            padding: 15px; margin-bottom: 20px; border-radius: 4px; white-space: pre-wrap;
+            word-wrap: break-word;
+        }
 
-        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #111; border: 2px solid var(--war-orange); padding: 20px; z-index: 1001; width: 95%; max-height: 85vh; overflow-y: auto; box-shadow: 0 0 40px #000; }
+        .modal { 
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            background: #111; border: 2px solid var(--war-orange); padding: 20px; 
+            z-index: 1001; width: 95%; max-height: 85vh; overflow-y: auto;
+            box-shadow: 0 0 40px #000;
+        }
+
         .modal-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
 
-        input, textarea, button { width: 100%; background: #000; border: 1px solid #444; color: var(--war-orange); padding: 12px; margin: 8px 0; }
+        input, textarea, button { 
+            width: 100%; background: #000; border: 1px solid #444; 
+            color: var(--war-orange); padding: 12px; margin: 8px 0;
+        }
         button { cursor: pointer; border-color: var(--war-orange); transition: 0.2s; }
         button:hover { background: var(--war-orange); color: #000; }
 
         .media-content { max-width: 100%; margin: 10px 0; border: 1px solid #333; display: block; }
+        
         #chatDisplay { height: 350px; overflow-y: auto; background: #050505; border: 1px solid #222; padding: 10px; }
+        
         #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; }
 
-        @media (max-width: 380px) { .nav-icons { gap: 8px; } .icon-btn { font-size: 18px; } .discord-link span { display: none; } .discord-link { padding: 8px; } }
+        /* AJUSTES PARA CELULARES MUITO PEQUENOS */
+        @media (max-width: 380px) {
+            .nav-icons { gap: 8px; }
+            .icon-btn { font-size: 18px; }
+            .discord-link span { display: none; } /* Esconde o texto "DISC" e deixa só o ícone em telas minúsculas */
+            .discord-link { padding: 8px; }
+        }
     </style>
 </head>
 <body>
@@ -72,22 +124,16 @@
     </div>
     <div class="nav-icons">
         <span class="icon-btn" onclick="openModal('modalSugestao')"><i class="fa-solid fa-lightbulb"></i></span>
-        <span class="icon-btn" onclick="openModal('modalBug')"><i class="fa-solid fa-bug"></i></span>
         <span class="icon-btn" onclick="openModal('modalDenuncia')"><i class="fa-solid fa-triangle-exclamation"></i></span>
         <a href="https://discord.gg/a8eXyK4a7" target="_blank" class="discord-link">
-            <i class="fa-brands fa-discord"></i><span>DISC</span>
+            <i class="fa-brands fa-discord"></i>
+            <span>DISC</span>
         </a>
     </div>
 </header>
 
-<div class="container"><div id="mainFeed"></div></div>
-
-<div id="modalBug" class="modal">
-    <div class="modal-header"><h3>REPORT BUG</h3><button onclick="closeAll()">X</button></div>
-    <input type="text" id="bugTitle" placeholder="Assunto do Bug">
-    <textarea id="bugDesc" placeholder="Explique o erro..."></textarea>
-    <input type="text" id="bugLink" placeholder="Link de Mídia (Opcional)">
-    <button onclick="sendTicket('bugs')">ENVIAR RELATÓRIO</button>
+<div class="container">
+    <div id="mainFeed"></div>
 </div>
 
 <div id="modalChatGeral" class="modal">
@@ -148,6 +194,7 @@
     let currentUser = localStorage.getItem('ww2_user') || null;
     let isAdmin = false;
 
+    // --- SISTEMA INICIAL ---
     setTimeout(() => {
         document.getElementById('loading-screen').style.opacity = '0';
         setTimeout(() => {
@@ -158,12 +205,15 @@
 
     if (Notification.permission !== "granted") Notification.requestPermission();
 
+    // --- AUTH ---
     window.handleAuth = async (type) => {
         const u = document.getElementById('auth-user').value;
         const p = document.getElementById('auth-pass').value;
         if(u.length < 3) return alert("Nome muito curto!");
+
         const q = query(collection(db, "users"), where("name", "==", u));
         const snap = await getDocs(q);
+
         if(type === 'register') {
             if(!snap.empty) return alert("Nome já existe!");
             await addDoc(collection(db, "users"), { name: u, pass: p, ban: false });
@@ -183,21 +233,30 @@
         }
     };
 
+    // --- LOGICA DE MIDIA ---
     function renderMedia(url) {
         if(!url) return '';
         if(url.includes('mp4') || url.includes('video')) return `<video src="${url}" controls class="media-content"></video>`;
         return `<img src="${url}" class="media-content">`;
     }
 
+    // --- FEED & NOTIFICAÇÕES ---
     onSnapshot(query(collection(db, "posts"), orderBy("date", "desc")), (snap) => {
         const feed = document.getElementById('mainFeed');
         feed.innerHTML = '';
         snap.forEach(d => {
             const data = d.data();
-            feed.innerHTML += `<div class="post"><h2 style="color:#fff">${data.title}</h2><p>${data.text}</p>${renderMedia(data.media)}${isAdmin ? `<button onclick="window.deleteData('posts','${d.id}')">APAGAR</button>` : ''}</div>`;
+            feed.innerHTML += `
+                <div class="post">
+                    <h2 style="color:#fff">${data.title}</h2>
+                    <p>${data.text}</p>
+                    ${renderMedia(data.media)}
+                    ${isAdmin ? `<button onclick="window.deleteData('posts','${d.id}')">APAGAR</button>` : ''}
+                </div>`;
         });
     });
 
+    // --- ADMIN SYSTEM ---
     window.checkAdmin = () => {
         if(isAdmin) { openModal('modalAdmin'); return; }
         if(prompt("PASSCODE:") === "2012") { isAdmin = true; openModal('modalAdmin'); }
@@ -206,33 +265,32 @@
     window.showAdminTab = (tab) => {
         const area = document.getElementById('adminWorkArea');
         if(tab === 'posts') {
-            area.innerHTML = `<input id="pT" placeholder="Título"><textarea id="pC" placeholder="Texto"></textarea><input id="pM" placeholder="Link Mídia"><button onclick="window.publish('posts')">POSTAR FEED</button><button onclick="window.publish('avisos')">POSTAR AVISOS</button>`;
+            area.innerHTML = `
+                <input id="pT" placeholder="Título">
+                <textarea id="pC" placeholder="Texto"></textarea>
+                <input id="pM" placeholder="Link Mídia">
+                <button onclick="window.publish('posts')">POSTAR FEED</button>
+                <button onclick="window.publish('avisos')">POSTAR AVISOS</button>
+            `;
         } else if (tab === 'ban') {
             area.innerHTML = `<input id="banUser" placeholder="Nome para banir"><button onclick="window.banSystem()">BANIR</button>`;
         } else if (tab === 'inbox') {
-            area.innerHTML = `<div style="display:flex; gap:5px"><button onclick="loadInbox('sugestoes')">SUG</button><button onclick="loadInbox('denuncias')">DEN</button><button onclick="loadInbox('bugs')">BUG</button></div><div id="adminInbox"></div>`;
+            area.innerHTML = `<h3>DENUNCIAS/SUGESTOES</h3><div id="adminInbox"></div>`;
+            loadInbox();
         }
     }
 
-    window.loadInbox = async (col) => {
-        const q = await getDocs(collection(db, col));
-        const box = document.getElementById('adminInbox'); box.innerHTML = '';
-        q.forEach(d => {
+    async function loadInbox() {
+        const qD = await getDocs(collection(db, "denuncias"));
+        const box = document.getElementById('adminInbox');
+        box.innerHTML = '';
+        qD.forEach(d => {
             const data = d.data();
-            box.innerHTML += `<div class="post"><b>${data.n}</b><br>${data.m}<br>${renderMedia(data.link)}
-                <div style="display:flex; gap:5px">
-                    <button onclick="window.updateStatus('${col}','${d.id}','approved')">APROVAR</button>
-                    <button onclick="window.updateStatus('${col}','${d.id}','rejected')">REJEITAR</button>
-                    <button onclick="window.deleteData('${col}','${d.id}')">APAGAR</button>
-                </div></div>`;
+            box.innerHTML += `<div class="post"><b>DENÚNCIA: ${data.n}</b><br>${data.m}<br>${renderMedia(data.link)}<button onclick="window.deleteData('denuncias','${d.id}')">RESOLVIDO/APAGAR</button></div>`;
         });
     }
 
-    window.updateStatus = async (col, id, status) => {
-        await updateDoc(doc(db, col, id), { status: status });
-        alert("Status atualizado!"); loadInbox(col);
-    }
-
+    // --- FIREBASE ACTIONS ---
     window.publish = async (col) => {
         const t = document.getElementById('pT').value;
         const c = document.getElementById('pC').value;
@@ -243,14 +301,16 @@
     }
 
     window.sendTicket = async (col) => {
-        const t = document.getElementById(col === 'bugs' ? 'bugTitle' : (col === 'sugestoes' ? 'sugTitle' : 'denNome')).value;
-        const m = document.getElementById(col === 'bugs' ? 'bugDesc' : (col === 'sugestoes' ? 'sugDesc' : 'denMotivo')).value;
-        const l = document.getElementById(col === 'bugs' ? 'bugLink' : (col === 'sugestoes' ? 'sugLink' : 'denLink')).value;
-        await addDoc(collection(db, col), { n: t, m: m, link: l, user: currentUser, status: 'pending', date: Date.now() });
-        alert("Enviado para o comando central!"); closeAll();
+        const title = document.getElementById(col === 'sugestoes' ? 'sugTitle' : 'denNome').value;
+        const desc = document.getElementById(col === 'sugestoes' ? 'sugDesc' : 'denMotivo').value;
+        const link = document.getElementById(col === 'sugestoes' ? 'sugLink' : 'denLink').value;
+        await addDoc(collection(db, col), { n: title, m: desc, link: link, user: currentUser, date: Date.now() });
+        alert("Enviado para o comando central!");
+        closeAll();
     }
 
     window.deleteData = async (col, id) => { if(confirm("Confirmar exclusão?")) await deleteDoc(doc(db, col, id)); }
+
     window.openModal = (id) => { document.getElementById('overlay').style.display = 'block'; document.getElementById(id).style.display = 'block'; }
     window.closeAll = () => { document.getElementById('overlay').style.display = 'none'; document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
 
@@ -259,7 +319,8 @@
         const m = document.getElementById('chatMedia').value;
         if(t || m) {
             await addDoc(collection(db, "chatGeral"), { text: t, media: m, user: currentUser, date: Date.now() });
-            document.getElementById('chatInput').value = ''; document.getElementById('chatMedia').value = '';
+            document.getElementById('chatInput').value = '';
+            document.getElementById('chatMedia').value = '';
         }
     }
 
@@ -267,7 +328,12 @@
         const d = document.getElementById('chatDisplay'); d.innerHTML = '';
         snap.forEach(docSnap => {
             const m = docSnap.data();
-            d.innerHTML += `<div style="margin-bottom:15px; border-bottom:1px solid #222"><small style="color:var(--war-orange)">${m.user}:</small><br><span>${m.text}</span><br>${renderMedia(m.media)}${isAdmin ? `<button style="width:auto; padding:2px; font-size:8px" onclick="window.deleteData('chatGeral','${docSnap.id}')">BANIR MSG</button>` : ''}</div>`;
+            d.innerHTML += `<div style="margin-bottom:15px; border-bottom:1px solid #222">
+                <small style="color:var(--war-orange)">${m.user}:</small><br>
+                <span>${m.text}</span><br>
+                ${renderMedia(m.media)}
+                ${isAdmin ? `<button style="width:auto; padding:2px; font-size:8px" onclick="window.deleteData('chatGeral','${docSnap.id}')">BANIR MSG</button>` : ''}
+            </div>`;
         });
         d.scrollTop = d.scrollHeight;
     });
@@ -276,9 +342,11 @@
         const a = document.getElementById('listaAvisos'); a.innerHTML = '';
         snap.forEach(d => {
             const data = d.data();
-            a.innerHTML += `<div class="post"><h3>${data.title}</h3><p>${data.text}</p>${renderMedia(data.media)}${isAdmin ? `<button onclick="window.deleteData('avisos','${d.id}')">REMOVER</button>` : ''}</div>`;
+            a.innerHTML += `<div class="post"><h3>${data.title}</h3><p>${data.text}</p>${renderMedia(data.media)} ${isAdmin ? `<button onclick="window.deleteData('avisos','${d.id}')">REMOVER</button>` : ''}</div>`;
         });
     });
+
 </script>
 </body>
-</html>
+    </html>
+    
