@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WW2 GUERRA MUNDIAL LAC | FRONT</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --war-orange: #ff6600; --dark-gray: #1a1a1a; --black: #0a0a0a; --text-shadow: 0 0 10px rgba(255, 102, 0, 0.5); }
         
@@ -29,14 +30,32 @@
             justify-content: center; align-items: center;
         }
 
+        /* HEADER RESPONSIVO */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px; border-bottom: 2px solid var(--war-orange); 
+            padding: 10px 15px; border-bottom: 2px solid var(--war-orange); 
             background: rgba(10,10,10,0.95); position: sticky; top: 0; z-index: 100;
         }
 
-        .icon-btn { cursor: pointer; font-size: 22px; transition: 0.3s; color: var(--war-orange); }
+        .nav-icons { display: flex; gap: 12px; align-items: center; }
+        .icon-btn { cursor: pointer; font-size: 20px; transition: 0.3s; color: var(--war-orange); }
         .icon-btn:hover { transform: scale(1.1); filter: brightness(1.5); }
+
+        /* CORREÇÃO DO DISCORD MOBILE */
+        .discord-link {
+            background: #5865F2;
+            color: white !important;
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .discord-link i { font-size: 14px; }
 
         .container { padding: 15px; max-width: 600px; margin: 0 auto; animation: fadeIn 1s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -44,6 +63,7 @@
         .post { 
             background: var(--dark-gray); border-left: 5px solid var(--war-orange); 
             padding: 15px; margin-bottom: 20px; border-radius: 4px; white-space: pre-wrap;
+            word-wrap: break-word;
         }
 
         .modal { 
@@ -53,6 +73,8 @@
             box-shadow: 0 0 40px #000;
         }
 
+        .modal-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+
         input, textarea, button { 
             width: 100%; background: #000; border: 1px solid #444; 
             color: var(--war-orange); padding: 12px; margin: 8px 0;
@@ -60,14 +82,19 @@
         button { cursor: pointer; border-color: var(--war-orange); transition: 0.2s; }
         button:hover { background: var(--war-orange); color: #000; }
 
-        .media-content { max-width: 100%; margin: 10px 0; border: 1px solid #333; }
+        .media-content { max-width: 100%; margin: 10px 0; border: 1px solid #333; display: block; }
         
         #chatDisplay { height: 350px; overflow-y: auto; background: #050505; border: 1px solid #222; padding: 10px; }
         
-        .admin-only { display: none; border: 1px dashed red !important; }
-        .status-badge { font-size: 10px; padding: 2px 5px; border-radius: 3px; margin-left: 5px; }
-
         #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; }
+
+        /* AJUSTES PARA CELULARES MUITO PEQUENOS */
+        @media (max-width: 380px) {
+            .nav-icons { gap: 8px; }
+            .icon-btn { font-size: 18px; }
+            .discord-link span { display: none; } /* Esconde o texto "DISC" e deixa só o ícone em telas minúsculas */
+            .discord-link { padding: 8px; }
+        }
     </style>
 </head>
 <body>
@@ -91,14 +118,17 @@
 
 <header>
     <div class="nav-icons">
-        <span class="icon-btn" onclick="openModal('modalAvisos')">🔔</span>
-        <span class="icon-btn" onclick="openModal('modalChatGeral')">💬</span>
-        <span class="icon-btn" onclick="checkAdmin()">⚙️</span>
+        <span class="icon-btn" onclick="openModal('modalAvisos')"><i class="fa-solid fa-bell"></i></span>
+        <span class="icon-btn" onclick="openModal('modalChatGeral')"><i class="fa-solid fa-comments"></i></span>
+        <span class="icon-btn" onclick="checkAdmin()"><i class="fa-solid fa-gear"></i></span>
     </div>
     <div class="nav-icons">
-        <span class="icon-btn" onclick="openModal('modalSugestao')">💡</span>
-        <span class="icon-btn" onclick="openModal('modalDenuncia')">🚨</span>
-        <a href="https://discord.gg/a8eXyK4a7" target="_blank" style="color:#5865F2">DISC</a>
+        <span class="icon-btn" onclick="openModal('modalSugestao')"><i class="fa-solid fa-lightbulb"></i></span>
+        <span class="icon-btn" onclick="openModal('modalDenuncia')"><i class="fa-solid fa-triangle-exclamation"></i></span>
+        <a href="https://discord.gg/a8eXyK4a7" target="_blank" class="discord-link">
+            <i class="fa-brands fa-discord"></i>
+            <span>DISC</span>
+        </a>
     </div>
 </header>
 
@@ -126,8 +156,7 @@
         <button onclick="showAdminTab('inbox')">INBOX</button>
         <button onclick="showAdminTab('ban')">BAN</button>
     </div>
-    <div id="adminWorkArea" style="margin-top:15px">
-        </div>
+    <div id="adminWorkArea" style="margin-top:15px"></div>
 </div>
 
 <div id="modalSugestao" class="modal">
@@ -252,8 +281,6 @@
     }
 
     async function loadInbox() {
-        // Carrega denúncias e sugestões para o admin ver detalhes e apagar
-        const qS = await getDocs(collection(db, "sugestoes"));
         const qD = await getDocs(collection(db, "denuncias"));
         const box = document.getElementById('adminInbox');
         box.innerHTML = '';
@@ -269,7 +296,7 @@
         const c = document.getElementById('pC').value;
         const m = document.getElementById('pM').value;
         await addDoc(collection(db, col), { title: t, text: c, media: m, author: currentUser, date: Date.now() });
-        new Notification("WW2 LAC: Nova Atualização!");
+        if (Notification.permission === "granted") new Notification("WW2 LAC: Nova Atualização!");
         alert("Publicado!");
     }
 
@@ -287,7 +314,6 @@
     window.openModal = (id) => { document.getElementById('overlay').style.display = 'block'; document.getElementById(id).style.display = 'block'; }
     window.closeAll = () => { document.getElementById('overlay').style.display = 'none'; document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
 
-    // Chat Geral com Mídia
     document.getElementById('btnSendChat').onclick = async () => {
         const t = document.getElementById('chatInput').value;
         const m = document.getElementById('chatMedia').value;
@@ -312,7 +338,6 @@
         d.scrollTop = d.scrollHeight;
     });
 
-    // Sininho
     onSnapshot(query(collection(db, "avisos"), orderBy("date", "desc")), (snap) => {
         const a = document.getElementById('listaAvisos'); a.innerHTML = '';
         snap.forEach(d => {
