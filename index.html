@@ -3,75 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WW2 GUERRA MUNDIAL LAC</title>
+    <title>WW2 GUERRA MUNDIAL LAC | FRONT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        :root { --neon-green: #00ff41; --dark-bg: #050505; --card-bg: rgba(0, 20, 0, 0.8); }
+        :root { --war-orange: #ff6600; --dark-gray: #1a1a1a; --black: #0a0a0a; --text-shadow: 0 0 10px rgba(255, 102, 0, 0.5); }
         
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', 'Segoe UI', sans-serif; font-weight: 900; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', sans-serif; font-weight: 900; }
         
-        body { background: radial-gradient(circle at center, #0a1f0a 0%, #050505 100%); color: var(--neon-green); min-height: 100vh; overflow-x: hidden; }
+        body { background: var(--black); color: var(--war-orange); overflow-x: hidden; }
 
-        /* HEADER FUTURISTA */
+        /* LOADING SCREEN */
+        #loading-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+        }
+        .load-bar { width: 250px; height: 10px; background: #222; border: 1px solid var(--war-orange); margin-top: 20px; overflow: hidden; }
+        .load-progress { width: 0%; height: 100%; background: var(--war-orange); box-shadow: 0 0 15px var(--war-orange); animation: fill 5s linear forwards; }
+        @keyframes fill { to { width: 100%; } }
+
+        /* LOGIN OVERLAY */
+        #auth-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--black); z-index: 9998; display: none; padding: 20px;
+            justify-content: center; align-items: center;
+        }
+
         header { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px; border-bottom: 2px solid var(--neon-green); 
-            background: rgba(0,0,0,0.95); position: sticky; top: 0; z-index: 100;
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            padding: 15px; border-bottom: 2px solid var(--war-orange); 
+            background: rgba(10,10,10,0.95); position: sticky; top: 0; z-index: 100;
         }
 
-        .nav-icons { display: flex; gap: 15px; align-items: center; }
-        .icon-btn { cursor: pointer; font-size: 22px; transition: 0.3s; filter: drop-shadow(0 0 5px var(--neon-green)); }
-        .icon-btn:hover { transform: scale(1.2); color: #fff; }
+        .icon-btn { cursor: pointer; font-size: 22px; transition: 0.3s; color: var(--war-orange); }
+        .icon-btn:hover { transform: scale(1.1); filter: brightness(1.5); }
 
-        .discord-btn { 
-            background: #5865F2; color: white; padding: 8px 12px; border-radius: 4px; 
-            text-decoration: none; font-size: 12px; animation: pulse 2s infinite;
-        }
-
-        /* CONTEÚDO */
-        .container { padding: 15px; max-width: 600px; margin: 0 auto; }
-        .logo-text { font-size: 1.5rem; text-shadow: 0 0 10px var(--neon-green); letter-spacing: 2px; text-align: center; margin: 10px 0; }
+        .container { padding: 15px; max-width: 600px; margin: 0 auto; animation: fadeIn 1s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         .post { 
-            background: var(--card-bg); border: 1px solid var(--neon-green); 
-            padding: 15px; margin-bottom: 20px; border-radius: 8px;
-            position: relative; box-shadow: inset 0 0 10px rgba(0,255,65,0.1);
+            background: var(--dark-gray); border-left: 5px solid var(--war-orange); 
+            padding: 15px; margin-bottom: 20px; border-radius: 4px; white-space: pre-wrap;
         }
-        .tag-admin { color: #000; background: var(--neon-green); padding: 2px 10px; font-size: 10px; border-radius: 2px; margin-bottom: 10px; display: inline-block; }
 
-        /* MODAIS */
         .modal { 
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-            background: #000; border: 2px solid var(--neon-green); padding: 20px; 
-            z-index: 1001; width: 95%; max-height: 90vh; overflow-y: auto;
-            box-shadow: 0 0 50px rgba(0,0,0,1);
+            background: #111; border: 2px solid var(--war-orange); padding: 20px; 
+            z-index: 1001; width: 95%; max-height: 85vh; overflow-y: auto;
+            box-shadow: 0 0 40px #000;
         }
-        .modal-header { display: flex; justify-content: space-between; border-bottom: 1px solid var(--neon-green); margin-bottom: 15px; padding-bottom: 5px; }
-        
+
         input, textarea, button { 
-            width: 100%; background: #080808; border: 1px solid var(--neon-green); 
-            color: var(--neon-green); padding: 12px; margin: 8px 0; font-size: 14px;
+            width: 100%; background: #000; border: 1px solid #444; 
+            color: var(--war-orange); padding: 12px; margin: 8px 0;
         }
-        button { cursor: pointer; background: rgba(0,255,65,0.1); text-transform: uppercase; border-radius: 4px; }
-        button:hover { background: var(--neon-green); color: #000; }
-        .btn-del { border-color: #ff0000; color: #ff0000; padding: 4px; font-size: 10px; width: auto; }
+        button { cursor: pointer; border-color: var(--war-orange); transition: 0.2s; }
+        button:hover { background: var(--war-orange); color: #000; }
 
-        /* CHAT */
-        #chatDisplay, #adminViewArea { background: #050505; border: 1px solid #004411; height: 300px; overflow-y: auto; padding: 10px; margin-bottom: 10px; font-size: 13px; }
-        .chat-msg { margin-bottom: 8px; border-bottom: 1px solid #002200; padding-bottom: 4px; }
-
-        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; }
-
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(88, 101, 242, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(88, 101, 242, 0); } 100% { box-shadow: 0 0 0 0 rgba(88, 101, 242, 0); } }
+        .media-content { max-width: 100%; margin: 10px 0; border: 1px solid #333; }
         
-        /* ABAS ADMIN */
-        .admin-tabs { display: flex; gap: 5px; overflow-x: auto; margin-bottom: 10px; }
-        .tab-btn { padding: 5px; font-size: 10px; white-space: nowrap; }
+        #chatDisplay { height: 350px; overflow-y: auto; background: #050505; border: 1px solid #222; padding: 10px; }
+        
+        .admin-only { display: none; border: 1px dashed red !important; }
+        .status-badge { font-size: 10px; padding: 2px 5px; border-radius: 3px; margin-left: 5px; }
 
-        @media (max-width: 400px) { .nav-icons { gap: 8px; } .icon-btn { font-size: 18px; } }
+        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; }
     </style>
 </head>
 <body>
+
+<div id="loading-screen">
+    <h1>INITIALIZING SYSTEM...</h1>
+    <div class="load-bar"><div class="load-progress"></div></div>
+</div>
+
+<div id="auth-screen">
+    <div style="max-width:350px; width:100%">
+        <h2 style="text-align:center">MILITARY ID REQUIRED</h2>
+        <input type="text" id="auth-user" placeholder="NOME DE USUÁRIO">
+        <input type="password" id="auth-pass" placeholder="SENHA">
+        <button onclick="handleAuth('login')">LOGIN</button>
+        <button onclick="handleAuth('register')" style="font-size:10px; border:none">REGISTRAR NOVA CONTA</button>
+    </div>
+</div>
 
 <div id="overlay"></div>
 
@@ -84,70 +98,57 @@
     <div class="nav-icons">
         <span class="icon-btn" onclick="openModal('modalSugestao')">💡</span>
         <span class="icon-btn" onclick="openModal('modalDenuncia')">🚨</span>
-        <a href="https://discord.gg/a8eXyK4a7" target="_blank" class="discord-btn">DISCORD</a>
+        <a href="https://discord.gg/a8eXyK4a7" target="_blank" style="color:#5865F2">DISC</a>
     </div>
 </header>
 
 <div class="container">
-    <div class="logo-text">WW2 GUERRA MUNDIAL LAC</div>
     <div id="mainFeed"></div>
 </div>
 
 <div id="modalChatGeral" class="modal">
-    <div class="modal-header"><h3>CHAT GLOBAL</h3><button onclick="closeAll()">X</button></div>
+    <div class="modal-header"><h3>GENERAL CHAT</h3><button onclick="closeAll()">X</button></div>
     <div id="chatDisplay"></div>
-    <input type="text" id="chatInput" placeholder="Sua mensagem...">
-    <button id="btnSendChat">ENVIAR</button>
+    <input type="text" id="chatInput" placeholder="Mensagem...">
+    <input type="text" id="chatMedia" placeholder="Link de Foto/Vídeo (Opcional)">
+    <button id="btnSendChat">TRANSMITIR</button>
 </div>
 
 <div id="modalAvisos" class="modal">
-    <div class="modal-header"><h3>AVISOS STAFF</h3><button onclick="closeAll()">X</button></div>
+    <div class="modal-header"><h3>INTEL / AVISOS</h3><button onclick="closeAll()">X</button></div>
     <div id="listaAvisos"></div>
 </div>
 
+<div id="modalAdmin" class="modal">
+    <div class="modal-header"><h3>HQ - COMMAND CENTER</h3><button onclick="closeAll()">X</button></div>
+    <div style="display:flex; gap:5px; overflow-x:auto">
+        <button onclick="showAdminTab('posts')">POSTS</button>
+        <button onclick="showAdminTab('inbox')">INBOX</button>
+        <button onclick="showAdminTab('ban')">BAN</button>
+    </div>
+    <div id="adminWorkArea" style="margin-top:15px">
+        </div>
+</div>
+
 <div id="modalSugestao" class="modal">
-    <div class="modal-header"><h3>SUGESTÃO</h3><button onclick="closeAll()">X</button></div>
-    <input type="text" id="sugTitle" placeholder="Título da Ideia">
-    <textarea id="sugDesc" placeholder="Descreva sua sugestão..."></textarea>
-    <button id="btnSendSug">ENVIAR SUGESTÃO</button>
+    <div class="modal-header"><h3>SUBMIT SUGGESTION</h3><button onclick="closeAll()">X</button></div>
+    <input type="text" id="sugTitle" placeholder="Assunto">
+    <textarea id="sugDesc" placeholder="Explique sua ideia..."></textarea>
+    <input type="text" id="sugLink" placeholder="Link de Mídia">
+    <button onclick="sendTicket('sugestoes')">ENVIAR</button>
 </div>
 
 <div id="modalDenuncia" class="modal">
-    <div class="modal-header"><h3>DENÚNCIA</h3><button onclick="closeAll()">X</button></div>
-    <input type="text" id="denNome" placeholder="Nome do Infrator">
-    <textarea id="denMotivo" placeholder="Provas e motivo..."></textarea>
-    <button id="btnSendDen">PROTOCOLAR</button>
-</div>
-
-<div id="modalAdmin" class="modal">
-    <div class="modal-header"><h3>PAINEL OPERACIONAL</h3><button onclick="closeAll()">X</button></div>
-    
-    <div class="admin-tabs">
-        <button class="tab-btn" onclick="showAdminTab('post')">POSTAR</button>
-        <button class="tab-btn" onclick="showAdminTab('sug')">SUGESTÕES</button>
-        <button class="tab-btn" onclick="showAdminTab('den')">DENÚNCIAS</button>
-        <button class="tab-btn" onclick="showAdminTab('avisos')">AVISOS</button>
-    </div>
-
-    <div id="adminContentArea">
-        <div id="tab-post">
-            <input type="text" id="postT" placeholder="Título do Post">
-            <textarea id="postC" placeholder="Texto da Atualização"></textarea>
-            <button id="btnPubPost">PUBLICAR NO FEED</button>
-            <hr style="margin:15px 0; border:1px solid #004411">
-            <input type="text" id="avisoT" placeholder="Título do Aviso">
-            <textarea id="avisoC" placeholder="Conteúdo do Aviso (Sininho)"></textarea>
-            <button id="btnPubAviso">PUBLICAR NOS AVISOS</button>
-        </div>
-        <div id="tab-data" style="display:none">
-            <div id="adminViewArea"></div>
-        </div>
-    </div>
+    <div class="modal-header"><h3>REPORT TRAITOR</h3><button onclick="closeAll()">X</button></div>
+    <input type="text" id="denNome" placeholder="Nome do Alvo">
+    <textarea id="denMotivo" placeholder="Descreva o ocorrido..."></textarea>
+    <input type="text" id="denLink" placeholder="Link da Prova (Vídeo/Foto)">
+    <button onclick="sendTicket('denuncias')">DENUNCIAR</button>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, updateDoc, getDocs, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyAs0eBwIlKmpcouUvVa8TF2_ke0t9QD6QE",
@@ -160,142 +161,165 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+
+    let currentUser = localStorage.getItem('ww2_user') || null;
     let isAdmin = false;
 
-    // Interface
-    window.openModal = (id) => { 
-        document.getElementById('overlay').style.display = 'block';
-        document.getElementById(id).style.display = 'block';
-    }
-    window.closeAll = () => {
-        document.getElementById('overlay').style.display = 'none';
-        document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-    }
+    // --- SISTEMA INICIAL ---
+    setTimeout(() => {
+        document.getElementById('loading-screen').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('loading-screen').style.display = 'none';
+            if(!currentUser) document.getElementById('auth-screen').style.display = 'flex';
+        }, 500);
+    }, 5000);
 
-    window.checkAdmin = () => {
-        if(isAdmin) { openModal('modalAdmin'); return; }
-        if(prompt("CÓDIGO DE ACESSO:") === "2012") {
-            isAdmin = true;
-            openModal('modalAdmin');
-        } else { alert("ACESSO NEGADO"); }
-    }
+    if (Notification.permission !== "granted") Notification.requestPermission();
 
-    // Gerenciamento de Abas Admin
-    window.showAdminTab = (tipo) => {
-        const view = document.getElementById('adminViewArea');
-        const postTab = document.getElementById('tab-post');
-        const dataTab = document.getElementById('tab-data');
+    // --- AUTH ---
+    window.handleAuth = async (type) => {
+        const u = document.getElementById('auth-user').value;
+        const p = document.getElementById('auth-pass').value;
+        if(u.length < 3) return alert("Nome muito curto!");
 
-        if(tipo === 'post') {
-            postTab.style.display = 'block';
-            dataTab.style.display = 'none';
+        const q = query(collection(db, "users"), where("name", "==", u));
+        const snap = await getDocs(q);
+
+        if(type === 'register') {
+            if(!snap.empty) return alert("Nome já existe!");
+            await addDoc(collection(db, "users"), { name: u, pass: p, ban: false });
+            alert("Registrado! Faça login.");
         } else {
-            postTab.style.display = 'none';
-            dataTab.style.display = 'block';
-            loadAdminData(tipo);
-        }
-    }
-
-    async function deleteData(col, id) {
-        if(confirm("Deseja apagar este registro?")) {
-            await deleteDoc(doc(db, col, id));
-        }
-    }
-
-    // Carregar dados para o Admin (Sugestões, Denúncias, Avisos)
-    function loadAdminData(tipo) {
-        let colName = tipo === 'sug' ? 'sugestoes' : (tipo === 'den' ? 'denuncias' : 'avisos');
-        onSnapshot(collection(db, colName), (snap) => {
-            const area = document.getElementById('adminViewArea');
-            area.innerHTML = `<h4>GERENCIAR ${tipo.toUpperCase()}</h4><br>`;
+            let found = false;
             snap.forEach(d => {
-                const item = d.data();
-                area.innerHTML += `
-                    <div style="border:1px solid #00ff41; padding:5px; margin-bottom:10px">
-                        <p>${item.t || item.title || item.n || 'Sem título'}</p>
-                        <button class="btn-del" onclick="deleteData('${colName}', '${d.id}')">APAGAR</button>
-                    </div>
-                `;
+                if(d.data().pass === p) {
+                    if(d.data().ban) { alert("VOCÊ ESTÁ BANIDO!"); return; }
+                    currentUser = u;
+                    localStorage.setItem('ww2_user', u);
+                    document.getElementById('auth-screen').style.display = 'none';
+                    found = true;
+                }
             });
-        });
+            if(!found) alert("Senha ou Usuário incorreto.");
+        }
+    };
+
+    // --- LOGICA DE MIDIA ---
+    function renderMedia(url) {
+        if(!url) return '';
+        if(url.includes('mp4') || url.includes('video')) return `<video src="${url}" controls class="media-content"></video>`;
+        return `<img src="${url}" class="media-content">`;
     }
 
-    // --- LOGICA FIREBASE ---
-
-    // 1. Feed Principal
+    // --- FEED & NOTIFICAÇÕES ---
     onSnapshot(query(collection(db, "posts"), orderBy("date", "desc")), (snap) => {
         const feed = document.getElementById('mainFeed');
         feed.innerHTML = '';
         snap.forEach(d => {
-            const p = d.data();
+            const data = d.data();
             feed.innerHTML += `
                 <div class="post">
-                    <span class="tag-admin">STAFF</span>
-                    ${isAdmin ? `<button class="btn-del" style="float:right" onclick="deleteData('posts','${d.id}')">X</button>` : ''}
-                    <h2>${p.title}</h2>
-                    <p>${p.text}</p>
-                </div>
-            `;
-        });
-    });
-
-    // 2. Avisos (Sininho)
-    onSnapshot(query(collection(db, "avisos"), orderBy("date", "desc")), (snap) => {
-        const area = document.getElementById('listaAvisos');
-        area.innerHTML = '';
-        snap.forEach(d => {
-            const a = d.data();
-            area.innerHTML += `<div class="post"><h3>${a.title}</h3><p>${a.text}</p></div>`;
-        });
-    });
-
-    // 3. Chat Geral
-    onSnapshot(query(collection(db, "chatGeral"), orderBy("date", "asc")), (snap) => {
-        const display = document.getElementById('chatDisplay');
-        display.innerHTML = '';
-        snap.forEach(d => {
-            const m = d.data();
-            display.innerHTML += `
-                <div class="chat-msg">
-                    <small style="color:#888">${new Date(m.date).toLocaleTimeString()}</small><br>
-                    <span>${m.text}</span>
-                    ${isAdmin ? `<button class="btn-del" style="float:right" onclick="deleteData('chatGeral','${d.id}')">APAGAR</button>` : ''}
+                    <h2 style="color:#fff">${data.title}</h2>
+                    <p>${data.text}</p>
+                    ${renderMedia(data.media)}
+                    ${isAdmin ? `<button onclick="window.deleteData('posts','${d.id}')">APAGAR</button>` : ''}
                 </div>`;
         });
-        display.scrollTop = display.scrollHeight;
     });
 
-    // --- Cliques de Envio ---
-    document.getElementById('btnPubPost').onclick = async () => {
-        await addDoc(collection(db, "posts"), { title: document.getElementById('postT').value, text: document.getElementById('postC').value, date: Date.now() });
-        alert("Publicado!");
+    // --- ADMIN SYSTEM ---
+    window.checkAdmin = () => {
+        if(isAdmin) { openModal('modalAdmin'); return; }
+        if(prompt("PASSCODE:") === "2012") { isAdmin = true; openModal('modalAdmin'); }
     }
 
-    document.getElementById('btnPubAviso').onclick = async () => {
-        await addDoc(collection(db, "avisos"), { title: document.getElementById('avisoT').value, text: document.getElementById('avisoC').value, date: Date.now() });
-        alert("Aviso enviado!");
-    }
-
-    document.getElementById('btnSendChat').onclick = async () => {
-        const txt = document.getElementById('chatInput').value;
-        if(txt) {
-            await addDoc(collection(db, "chatGeral"), { text: txt, date: Date.now() });
-            document.getElementById('chatInput').value = '';
+    window.showAdminTab = (tab) => {
+        const area = document.getElementById('adminWorkArea');
+        if(tab === 'posts') {
+            area.innerHTML = `
+                <input id="pT" placeholder="Título">
+                <textarea id="pC" placeholder="Texto"></textarea>
+                <input id="pM" placeholder="Link Mídia">
+                <button onclick="window.publish('posts')">POSTAR FEED</button>
+                <button onclick="window.publish('avisos')">POSTAR AVISOS</button>
+            `;
+        } else if (tab === 'ban') {
+            area.innerHTML = `<input id="banUser" placeholder="Nome para banir"><button onclick="window.banSystem()">BANIR</button>`;
+        } else if (tab === 'inbox') {
+            area.innerHTML = `<h3>DENUNCIAS/SUGESTOES</h3><div id="adminInbox"></div>`;
+            loadInbox();
         }
     }
 
-    document.getElementById('btnSendSug').onclick = async () => {
-        await addDoc(collection(db, "sugestoes"), { t: document.getElementById('sugTitle').value, d: document.getElementById('sugDesc').value, date: Date.now() });
-        alert("Sugestão enviada!"); closeAll();
+    async function loadInbox() {
+        // Carrega denúncias e sugestões para o admin ver detalhes e apagar
+        const qS = await getDocs(collection(db, "sugestoes"));
+        const qD = await getDocs(collection(db, "denuncias"));
+        const box = document.getElementById('adminInbox');
+        box.innerHTML = '';
+        qD.forEach(d => {
+            const data = d.data();
+            box.innerHTML += `<div class="post"><b>DENÚNCIA: ${data.n}</b><br>${data.m}<br>${renderMedia(data.link)}<button onclick="window.deleteData('denuncias','${d.id}')">RESOLVIDO/APAGAR</button></div>`;
+        });
     }
 
-    document.getElementById('btnSendDen').onclick = async () => {
-        await addDoc(collection(db, "denuncias"), { n: document.getElementById('denNome').value, m: document.getElementById('denMotivo').value, date: Date.now() });
-        alert("Denúncia enviada!"); closeAll();
+    // --- FIREBASE ACTIONS ---
+    window.publish = async (col) => {
+        const t = document.getElementById('pT').value;
+        const c = document.getElementById('pC').value;
+        const m = document.getElementById('pM').value;
+        await addDoc(collection(db, col), { title: t, text: c, media: m, author: currentUser, date: Date.now() });
+        new Notification("WW2 LAC: Nova Atualização!");
+        alert("Publicado!");
     }
 
-    // Expor funções para o HTML global
-    window.deleteData = deleteData;
+    window.sendTicket = async (col) => {
+        const title = document.getElementById(col === 'sugestoes' ? 'sugTitle' : 'denNome').value;
+        const desc = document.getElementById(col === 'sugestoes' ? 'sugDesc' : 'denMotivo').value;
+        const link = document.getElementById(col === 'sugestoes' ? 'sugLink' : 'denLink').value;
+        await addDoc(collection(db, col), { n: title, m: desc, link: link, user: currentUser, date: Date.now() });
+        alert("Enviado para o comando central!");
+        closeAll();
+    }
+
+    window.deleteData = async (col, id) => { if(confirm("Confirmar exclusão?")) await deleteDoc(doc(db, col, id)); }
+
+    window.openModal = (id) => { document.getElementById('overlay').style.display = 'block'; document.getElementById(id).style.display = 'block'; }
+    window.closeAll = () => { document.getElementById('overlay').style.display = 'none'; document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
+
+    // Chat Geral com Mídia
+    document.getElementById('btnSendChat').onclick = async () => {
+        const t = document.getElementById('chatInput').value;
+        const m = document.getElementById('chatMedia').value;
+        if(t || m) {
+            await addDoc(collection(db, "chatGeral"), { text: t, media: m, user: currentUser, date: Date.now() });
+            document.getElementById('chatInput').value = '';
+            document.getElementById('chatMedia').value = '';
+        }
+    }
+
+    onSnapshot(query(collection(db, "chatGeral"), orderBy("date", "asc")), (snap) => {
+        const d = document.getElementById('chatDisplay'); d.innerHTML = '';
+        snap.forEach(docSnap => {
+            const m = docSnap.data();
+            d.innerHTML += `<div style="margin-bottom:15px; border-bottom:1px solid #222">
+                <small style="color:var(--war-orange)">${m.user}:</small><br>
+                <span>${m.text}</span><br>
+                ${renderMedia(m.media)}
+                ${isAdmin ? `<button style="width:auto; padding:2px; font-size:8px" onclick="window.deleteData('chatGeral','${docSnap.id}')">BANIR MSG</button>` : ''}
+            </div>`;
+        });
+        d.scrollTop = d.scrollHeight;
+    });
+
+    // Sininho
+    onSnapshot(query(collection(db, "avisos"), orderBy("date", "desc")), (snap) => {
+        const a = document.getElementById('listaAvisos'); a.innerHTML = '';
+        snap.forEach(d => {
+            const data = d.data();
+            a.innerHTML += `<div class="post"><h3>${data.title}</h3><p>${data.text}</p>${renderMedia(data.media)} ${isAdmin ? `<button onclick="window.deleteData('avisos','${d.id}')">REMOVER</button>` : ''}</div>`;
+        });
+    });
 
 </script>
 </body>
