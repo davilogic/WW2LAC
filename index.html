@@ -8,65 +8,56 @@
   <!-- Ícones -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <!-- Fonte futurista -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+  <!-- Fonte Sans Negrito -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;900&display=swap" rel="stylesheet">
 
   <style>
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: 'Orbitron', sans-serif;
-      background: radial-gradient(circle at top, #0f1f14, #000);
+      font-family: 'Montserrat', sans-serif;
+      background: radial-gradient(circle at top, #0b1a12, #000);
       color: #eafff1;
       scroll-behavior: smooth;
     }
 
-    /* HEADER */
     header {
       position: fixed;
       top: 0;
       width: 100%;
       z-index: 100;
-      background: rgba(0,0,0,0.9);
-      border-bottom: 1px solid #00ff88;
+      background: rgba(0,0,0,0.95);
+      border-bottom: 2px solid #00ff88;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 20px;
+      padding: 12px 18px;
     }
 
     .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
       color: #00ff88;
-      font-weight: 800;
-      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 1px;
     }
 
     nav a {
       color: #caffdf;
       text-decoration: none;
-      margin: 0 12px;
-      font-size: 14px;
-      position: relative;
+      margin: 0 10px;
+      font-weight: 700;
     }
 
-    nav a:hover {
-      color: #00ff88;
-    }
+    nav a:hover { color: #00ff88; }
 
     .icons {
       display: flex;
-      align-items: center;
-      gap: 15px;
+      gap: 14px;
+      font-size: 18px;
     }
 
     .icon-btn {
       color: #00ff88;
-      font-size: 18px;
       cursor: pointer;
-      position: relative;
     }
 
     /* AVISOS */
@@ -74,28 +65,50 @@
       display: none;
       position: fixed;
       top: 70px;
-      right: 20px;
-      width: 320px;
-      background: #020f08;
-      border: 1px solid #00ff88;
-      border-radius: 10px;
+      right: 10px;
+      width: 92%;
+      max-width: 420px;
+      background: #030f09;
+      border: 2px solid #00ff88;
+      border-radius: 14px;
       padding: 15px;
-      box-shadow: 0 0 20px #00ff8855;
-      max-height: 400px;
+      box-shadow: 0 0 25px #00ff8844;
+      max-height: 80vh;
       overflow-y: auto;
+      z-index: 200;
     }
 
     .avisos-box h3 {
       margin-top: 0;
       color: #00ff88;
       text-align: center;
+      font-weight: 900;
     }
 
     .aviso {
-      border-bottom: 1px solid #004d2a;
-      padding: 8px 0;
+      background: #000;
+      border-left: 4px solid #00ff88;
+      padding: 10px;
+      margin-bottom: 10px;
+      font-size: 14px;
       white-space: pre-line;
-      font-size: 13px;
+      position: relative;
+    }
+
+    .aviso img {
+      max-width: 100%;
+      margin-top: 8px;
+      border-radius: 6px;
+      border: 1px solid #00ff88;
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      color: #ff4444;
+      cursor: pointer;
+      display: none;
     }
 
     .admin-panel {
@@ -103,34 +116,28 @@
       margin-top: 10px;
     }
 
-    textarea {
+    textarea, input[type="file"] {
       width: 100%;
       background: #000;
       color: #00ff88;
       border: 1px solid #00ff88;
       border-radius: 6px;
       padding: 8px;
-      resize: vertical;
-      font-family: monospace;
+      margin-top: 6px;
     }
 
     button {
       width: 100%;
-      margin-top: 6px;
-      padding: 8px;
+      margin-top: 8px;
+      padding: 10px;
       background: #00ff88;
       color: #000;
       border: none;
       border-radius: 6px;
-      font-weight: bold;
+      font-weight: 900;
       cursor: pointer;
     }
 
-    button:hover {
-      background: #00cc6a;
-    }
-
-    /* SEÇÕES */
     section {
       padding: 110px 20px 60px;
       max-width: 1200px;
@@ -140,38 +147,31 @@
     h1, h2 {
       color: #00ff88;
       text-align: center;
+      font-weight: 900;
     }
 
-    /* CARDS */
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
       margin-top: 40px;
     }
 
     .card {
-      background: linear-gradient(145deg, #04140b, #000);
-      border: 1px solid #00ff88;
-      border-radius: 20px;
+      background: linear-gradient(160deg, #04140b, #000);
+      border: 2px solid #00ff88;
+      border-radius: 18px;
       padding: 25px;
       text-align: center;
-      box-shadow: 0 0 25px #00ff8822;
     }
 
     .card h3 {
-      font-size: 36px;
+      font-size: 38px;
       margin: 0;
       color: #00ff88;
+      font-weight: 900;
     }
 
-    .card p {
-      margin: 10px 0 0;
-      font-size: 14px;
-      color: #caffdf;
-    }
-
-    /* TUTORIAL */
     .steps {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -181,9 +181,10 @@
 
     .step {
       background: #020f08;
-      border-left: 4px solid #00ff88;
-      border-radius: 10px;
+      border-left: 5px solid #00ff88;
+      border-radius: 12px;
       padding: 20px;
+      font-weight: 700;
     }
 
     footer {
@@ -191,7 +192,6 @@
       padding: 30px;
       color: #5cffb0;
       font-size: 12px;
-      opacity: 0.8;
     }
   </style>
 </head>
@@ -199,106 +199,72 @@
 <body>
 
 <header>
-  <div class="logo">
-    <i class="fa-solid fa-bolt"></i>
-    WW2 GUERRA MUNDIAL
-  </div>
-
+  <div class="logo">WW2 GUERRA MUNDIAL</div>
   <nav>
     <a href="#inicio">Início</a>
     <a href="#sobre">Sobre</a>
     <a href="#como-jogar">Como Jogar</a>
   </nav>
-
   <div class="icons">
-    <a href="https://discord.gg/qXG3H2H5u" target="_blank" class="icon-btn">
-      <i class="fa-brands fa-discord"></i>
-    </a>
-    <div class="icon-btn" onclick="toggleAvisos()">
-      <i class="fa-solid fa-bell"></i>
-    </div>
-    <div class="icon-btn" onclick="loginAdmin()">
-      <i class="fa-solid fa-code"></i>
-    </div>
+    <a href="https://discord.gg/qXG3H2H5u" target="_blank" class="icon-btn"><i class="fa-brands fa-discord"></i></a>
+    <div class="icon-btn" onclick="toggleAvisos()"><i class="fa-solid fa-bell"></i></div>
+    <div class="icon-btn" onclick="loginAdmin()"><i class="fa-solid fa-code"></i></div>
   </div>
 </header>
 
 <div class="avisos-box" id="avisosBox">
-  <h3>📢 Avisos</h3>
+  <h3>📢 AVISOS OFICIAIS</h3>
   <div id="avisosLista"></div>
 
   <div class="admin-panel" id="adminPanel">
-    <textarea id="novoAviso" rows="4" placeholder="Digite o aviso..."></textarea>
+    <textarea id="novoAviso" rows="4" placeholder="Texto do aviso"></textarea>
+    <input type="file" id="imagemAviso" accept="image/*">
     <button onclick="enviarAviso()">Publicar Aviso</button>
   </div>
 </div>
 
 <section id="inicio">
-  <h1>Servidor WW2 GUERRA MUNDIAL</h1>
-
+  <h1>WW2 GUERRA MUNDIAL</h1>
   <div class="cards">
-    <div class="card">
-      <h3>20</h3>
-      <p>Jogadores Máx</p>
-    </div>
-    <div class="card">
-      <h3>24/7</h3>
-      <p>Servidor Online</p>
-    </div>
-    <div class="card">
-      <h3>20ms</h3>
-      <p>Ping Médio</p>
-    </div>
-    <div class="card">
-      <h3>100%</h3>
-      <p>Staff Ativa</p>
-    </div>
+    <div class="card"><h3>20</h3><p>Jogadores Máx</p></div>
+    <div class="card"><h3>24/7</h3><p>Servidor Online</p></div>
+    <div class="card"><h3>20ms</h3><p>Ping Médio</p></div>
+    <div class="card"><h3>100%</h3><p>Staff Ativa</p></div>
   </div>
 </section>
 
 <section id="sobre">
   <h2>Sobre o Servidor</h2>
-  <p>
-    O <b>WW2 GUERRA MUNDIAL</b> é um servidor ambientado na <b>Segunda Guerra Mundial</b>,
-    no ano de <b>1942</b>, quando o <b>Brasil entrou oficialmente na guerra contra a Alemanha</b>.
-  </p>
-  <p>
-    Os jogadores brasileiros chegam de <b>navio à Itália</b>, carregando o símbolo histórico
-    <b>“A Cobra Vai Fumar”</b>, com o objetivo de dominar <b>5 territórios estratégicos alemães</b>.
-  </p>
-  <p>
-    Os alemães não deixam barato: defendem suas bases, contra-atacam e tentam impedir o avanço brasileiro
-    a qualquer custo.
-  </p>
+  <p><b>1942.</b> O Brasil entra oficialmente na Segunda Guerra Mundial.</p>
+  <p>Os pracinhas chegam à Itália sob o símbolo <b>“A Cobra Vai Fumar”</b>.</p>
+  <p>O objetivo é dominar <b>5 territórios alemães</b>, enquanto a Alemanha luta para defender cada base.</p>
 </section>
 
 <section id="como-jogar">
   <h2>Como Jogar</h2>
-
   <div class="steps">
     <div class="step">
       <h3>1️⃣ Baixe o LAC Online</h3>
-      <p>Faça o download do jogo <b>Los Angeles Crimes</b> diretamente pela Play Store.</p>
+      <p>
+        <a href="https://play.google.com/store/apps/details?id=com.MA.LAC" target="_blank" style="color:#00ff88;">
+          Clique aqui para baixar na Play Store
+        </a>
+      </p>
     </div>
     <div class="step">
       <h3>2️⃣ Entre no Servidor</h3>
-      <p>Abra o LAC Online, vá na lista de servidores e procure por <b>WW2 GUERRA MUNDIAL</b>.</p>
-    </div>
-    <div class="step">
-      <h3>3️⃣ Sem Código</h3>
-      <p>Não é necessário código para entrar. É só conectar e jogar.</p>
+      <p>Procure por <b>WW2 GUERRA MUNDIAL</b> na lista de servidores.</p>
     </div>
   </div>
 </section>
 
-<footer>
-  © WW2 GUERRA MUNDIAL • LAC Online
-</footer>
+<footer>© WW2 GUERRA MUNDIAL • LAC Online</footer>
 
 <!-- FIREBASE -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyA691vDLGFLHhb7gyZBNNbs98CN_n34fvs",
@@ -306,39 +272,62 @@
     projectId: "ww2lac2",
     storageBucket: "ww2lac2.firebasestorage.app",
     messagingSenderId: "555873394258",
-    appId: "1:555873394258:web:a97ba4de0d12c7cad0498b",
-    measurementId: "G-4X24J4SJWT"
+    appId: "1:555873394258:web:a97ba4de0d12c7cad0498b"
   };
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+  const storage = getStorage(app);
 
   const avisosLista = document.getElementById("avisosLista");
 
   const q = query(collection(db, "avisos"), orderBy("data", "desc"));
   onSnapshot(q, (snapshot) => {
     avisosLista.innerHTML = "";
-    snapshot.forEach(doc => {
+    snapshot.forEach(d => {
+      const data = d.data();
       const div = document.createElement("div");
       div.className = "aviso";
-      div.textContent = doc.data().texto;
+      div.innerHTML = `
+        ${data.texto || ""}
+        ${data.imagem ? `<img src="${data.imagem}">` : ""}
+        ${window.admin ? `<i class="fa-solid fa-trash delete-btn" onclick="deleteAviso('${d.id}')"></i>` : ""}
+      `;
+      if (window.admin) div.querySelector(".delete-btn").style.display = "block";
       avisosLista.appendChild(div);
     });
   });
 
   window.enviarAviso = async () => {
     const texto = document.getElementById("novoAviso").value;
-    if (!texto.trim()) return;
+    const file = document.getElementById("imagemAviso").files[0];
+    let imagemURL = "";
+
+    if (file) {
+      const refImg = ref(storage, "avisos/" + Date.now());
+      await uploadBytes(refImg, file);
+      imagemURL = await getDownloadURL(refImg);
+    }
+
     await addDoc(collection(db, "avisos"), {
       texto,
+      imagem: imagemURL,
       data: new Date()
     });
+
     document.getElementById("novoAviso").value = "";
+    document.getElementById("imagemAviso").value = "";
+  };
+
+  window.deleteAviso = async (id) => {
+    if (confirm("Apagar este aviso?")) {
+      await deleteDoc(doc(db, "avisos", id));
+    }
   };
 </script>
 
 <script>
-  let admin = false;
+  window.admin = false;
 
   function toggleAvisos() {
     const box = document.getElementById("avisosBox");
@@ -346,9 +335,9 @@
   }
 
   function loginAdmin() {
-    const senha = prompt("Digite a senha de administrador:");
+    const senha = prompt("Senha de administrador:");
     if (senha === "2012") {
-      admin = true;
+      window.admin = true;
       document.getElementById("adminPanel").style.display = "block";
       alert("Modo administrador ativado");
     } else {
