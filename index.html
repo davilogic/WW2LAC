@@ -1,351 +1,361 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WW2 GUERRA MUNDIAL LAC | FRONT</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root { --war-orange: #ff6600; --dark-gray: #1a1a1a; --black: #0a0a0a; --text-shadow: 0 0 10px rgba(255, 102, 0, 0.5); }
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', sans-serif; font-weight: 900; }
-        
-        body { background: var(--black); color: var(--war-orange); overflow-x: hidden; }
+  <meta charset="UTF-8" />
+  <title>WW2 GUERRA MUNDIAL | LAC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        /* LOADING SCREEN */
-        #loading-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 9999; display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-        }
-        .load-bar { width: 250px; height: 10px; background: #222; border: 1px solid var(--war-orange); margin-top: 20px; overflow: hidden; }
-        .load-progress { width: 0%; height: 100%; background: var(--war-orange); box-shadow: 0 0 15px var(--war-orange); animation: fill 5s linear forwards; }
-        @keyframes fill { to { width: 100%; } }
+  <!-- Ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-        /* LOGIN OVERLAY */
-        #auth-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--black); z-index: 9998; display: none; padding: 20px;
-            justify-content: center; align-items: center;
-        }
+  <!-- Fonte futurista -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
 
-        /* HEADER RESPONSIVO */
-        header { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 10px 15px; border-bottom: 2px solid var(--war-orange); 
-            background: rgba(10,10,10,0.95); position: sticky; top: 0; z-index: 100;
-        }
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(circle at top, #0f1f14, #000);
+      color: #eafff1;
+      scroll-behavior: smooth;
+    }
 
-        .nav-icons { display: flex; gap: 12px; align-items: center; }
-        .icon-btn { cursor: pointer; font-size: 20px; transition: 0.3s; color: var(--war-orange); }
-        .icon-btn:hover { transform: scale(1.1); filter: brightness(1.5); }
+    /* HEADER */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(0,0,0,0.9);
+      border-bottom: 1px solid #00ff88;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+    }
 
-        /* CORREÇÃO DO DISCORD MOBILE */
-        .discord-link {
-            background: #5865F2;
-            color: white !important;
-            text-decoration: none;
-            padding: 6px 10px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 11px;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-        .discord-link i { font-size: 14px; }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #00ff88;
+      font-weight: 800;
+      font-size: 18px;
+    }
 
-        .container { padding: 15px; max-width: 600px; margin: 0 auto; animation: fadeIn 1s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    nav a {
+      color: #caffdf;
+      text-decoration: none;
+      margin: 0 12px;
+      font-size: 14px;
+      position: relative;
+    }
 
-        .post { 
-            background: var(--dark-gray); border-left: 5px solid var(--war-orange); 
-            padding: 15px; margin-bottom: 20px; border-radius: 4px; white-space: pre-wrap;
-            word-wrap: break-word;
-        }
+    nav a:hover {
+      color: #00ff88;
+    }
 
-        .modal { 
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-            background: #111; border: 2px solid var(--war-orange); padding: 20px; 
-            z-index: 1001; width: 95%; max-height: 85vh; overflow-y: auto;
-            box-shadow: 0 0 40px #000;
-        }
+    .icons {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-        .modal-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    .icon-btn {
+      color: #00ff88;
+      font-size: 18px;
+      cursor: pointer;
+      position: relative;
+    }
 
-        input, textarea, button { 
-            width: 100%; background: #000; border: 1px solid #444; 
-            color: var(--war-orange); padding: 12px; margin: 8px 0;
-        }
-        button { cursor: pointer; border-color: var(--war-orange); transition: 0.2s; }
-        button:hover { background: var(--war-orange); color: #000; }
+    /* AVISOS */
+    .avisos-box {
+      display: none;
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      width: 320px;
+      background: #020f08;
+      border: 1px solid #00ff88;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 0 20px #00ff8855;
+      max-height: 400px;
+      overflow-y: auto;
+    }
 
-        .media-content { max-width: 100%; margin: 10px 0; border: 1px solid #333; display: block; }
-        
-        #chatDisplay { height: 350px; overflow-y: auto; background: #050505; border: 1px solid #222; padding: 10px; }
-        
-        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; }
+    .avisos-box h3 {
+      margin-top: 0;
+      color: #00ff88;
+      text-align: center;
+    }
 
-        /* AJUSTES PARA CELULARES MUITO PEQUENOS */
-        @media (max-width: 380px) {
-            .nav-icons { gap: 8px; }
-            .icon-btn { font-size: 18px; }
-            .discord-link span { display: none; } /* Esconde o texto "DISC" e deixa só o ícone em telas minúsculas */
-            .discord-link { padding: 8px; }
-        }
-    </style>
+    .aviso {
+      border-bottom: 1px solid #004d2a;
+      padding: 8px 0;
+      white-space: pre-line;
+      font-size: 13px;
+    }
+
+    .admin-panel {
+      display: none;
+      margin-top: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      background: #000;
+      color: #00ff88;
+      border: 1px solid #00ff88;
+      border-radius: 6px;
+      padding: 8px;
+      resize: vertical;
+      font-family: monospace;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 6px;
+      padding: 8px;
+      background: #00ff88;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #00cc6a;
+    }
+
+    /* SEÇÕES */
+    section {
+      padding: 110px 20px 60px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    h1, h2 {
+      color: #00ff88;
+      text-align: center;
+    }
+
+    /* CARDS */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, #04140b, #000);
+      border: 1px solid #00ff88;
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 0 25px #00ff8822;
+    }
+
+    .card h3 {
+      font-size: 36px;
+      margin: 0;
+      color: #00ff88;
+    }
+
+    .card p {
+      margin: 10px 0 0;
+      font-size: 14px;
+      color: #caffdf;
+    }
+
+    /* TUTORIAL */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .step {
+      background: #020f08;
+      border-left: 4px solid #00ff88;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #5cffb0;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+  </style>
 </head>
+
 <body>
 
-<div id="loading-screen">
-    <h1>INITIALIZING SYSTEM...</h1>
-    <div class="load-bar"><div class="load-progress"></div></div>
-</div>
-
-<div id="auth-screen">
-    <div style="max-width:350px; width:100%">
-        <h2 style="text-align:center">MILITARY ID REQUIRED</h2>
-        <input type="text" id="auth-user" placeholder="NOME DE USUÁRIO">
-        <input type="password" id="auth-pass" placeholder="SENHA">
-        <button onclick="handleAuth('login')">LOGIN</button>
-        <button onclick="handleAuth('register')" style="font-size:10px; border:none">REGISTRAR NOVA CONTA</button>
-    </div>
-</div>
-
-<div id="overlay"></div>
-
 <header>
-    <div class="nav-icons">
-        <span class="icon-btn" onclick="openModal('modalAvisos')"><i class="fa-solid fa-bell"></i></span>
-        <span class="icon-btn" onclick="openModal('modalChatGeral')"><i class="fa-solid fa-comments"></i></span>
-        <span class="icon-btn" onclick="checkAdmin()"><i class="fa-solid fa-gear"></i></span>
+  <div class="logo">
+    <i class="fa-solid fa-bolt"></i>
+    WW2 GUERRA MUNDIAL
+  </div>
+
+  <nav>
+    <a href="#inicio">Início</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#como-jogar">Como Jogar</a>
+  </nav>
+
+  <div class="icons">
+    <a href="https://discord.gg/qXG3H2H5u" target="_blank" class="icon-btn">
+      <i class="fa-brands fa-discord"></i>
+    </a>
+    <div class="icon-btn" onclick="toggleAvisos()">
+      <i class="fa-solid fa-bell"></i>
     </div>
-    <div class="nav-icons">
-        <span class="icon-btn" onclick="openModal('modalSugestao')"><i class="fa-solid fa-lightbulb"></i></span>
-        <span class="icon-btn" onclick="openModal('modalDenuncia')"><i class="fa-solid fa-triangle-exclamation"></i></span>
-        <a href="https://discord.gg/37zu9GHU2" target="_blank" class="discord-link">
-            <i class="fa-brands fa-discord"></i>
-            <span>DISC</span>
-        </a>
+    <div class="icon-btn" onclick="loginAdmin()">
+      <i class="fa-solid fa-code"></i>
     </div>
+  </div>
 </header>
 
-<div class="container">
-    <div id="mainFeed"></div>
+<div class="avisos-box" id="avisosBox">
+  <h3>📢 Avisos</h3>
+  <div id="avisosLista"></div>
+
+  <div class="admin-panel" id="adminPanel">
+    <textarea id="novoAviso" rows="4" placeholder="Digite o aviso..."></textarea>
+    <button onclick="enviarAviso()">Publicar Aviso</button>
+  </div>
 </div>
 
-<div id="modalChatGeral" class="modal">
-    <div class="modal-header"><h3>GENERAL CHAT</h3><button onclick="closeAll()">X</button></div>
-    <div id="chatDisplay"></div>
-    <input type="text" id="chatInput" placeholder="Mensagem...">
-    <input type="text" id="chatMedia" placeholder="Link de Foto/Vídeo (Opcional)">
-    <button id="btnSendChat">TRANSMITIR</button>
-</div>
+<section id="inicio">
+  <h1>Servidor WW2 GUERRA MUNDIAL</h1>
 
-<div id="modalAvisos" class="modal">
-    <div class="modal-header"><h3>INTEL / AVISOS</h3><button onclick="closeAll()">X</button></div>
-    <div id="listaAvisos"></div>
-</div>
-
-<div id="modalAdmin" class="modal">
-    <div class="modal-header"><h3>HQ - COMMAND CENTER</h3><button onclick="closeAll()">X</button></div>
-    <div style="display:flex; gap:5px; overflow-x:auto">
-        <button onclick="showAdminTab('posts')">POSTS</button>
-        <button onclick="showAdminTab('inbox')">INBOX</button>
-        <button onclick="showAdminTab('ban')">BAN</button>
+  <div class="cards">
+    <div class="card">
+      <h3>20</h3>
+      <p>Jogadores Máx</p>
     </div>
-    <div id="adminWorkArea" style="margin-top:15px"></div>
-</div>
+    <div class="card">
+      <h3>24/7</h3>
+      <p>Servidor Online</p>
+    </div>
+    <div class="card">
+      <h3>20ms</h3>
+      <p>Ping Médio</p>
+    </div>
+    <div class="card">
+      <h3>100%</h3>
+      <p>Staff Ativa</p>
+    </div>
+  </div>
+</section>
 
-<div id="modalSugestao" class="modal">
-    <div class="modal-header"><h3>SUBMIT SUGGESTION</h3><button onclick="closeAll()">X</button></div>
-    <input type="text" id="sugTitle" placeholder="Assunto">
-    <textarea id="sugDesc" placeholder="Explique sua ideia..."></textarea>
-    <input type="text" id="sugLink" placeholder="Link de Mídia">
-    <button onclick="sendTicket('sugestoes')">ENVIAR</button>
-</div>
+<section id="sobre">
+  <h2>Sobre o Servidor</h2>
+  <p>
+    O <b>WW2 GUERRA MUNDIAL</b> é um servidor ambientado na <b>Segunda Guerra Mundial</b>,
+    no ano de <b>1942</b>, quando o <b>Brasil entrou oficialmente na guerra contra a Alemanha</b>.
+  </p>
+  <p>
+    Os jogadores brasileiros chegam de <b>navio à Itália</b>, carregando o símbolo histórico
+    <b>“A Cobra Vai Fumar”</b>, com o objetivo de dominar <b>5 territórios estratégicos alemães</b>.
+  </p>
+  <p>
+    Os alemães não deixam barato: defendem suas bases, contra-atacam e tentam impedir o avanço brasileiro
+    a qualquer custo.
+  </p>
+</section>
 
-<div id="modalDenuncia" class="modal">
-    <div class="modal-header"><h3>REPORT TRAITOR</h3><button onclick="closeAll()">X</button></div>
-    <input type="text" id="denNome" placeholder="Nome do Alvo">
-    <textarea id="denMotivo" placeholder="Descreva o ocorrido..."></textarea>
-    <input type="text" id="denLink" placeholder="Link da Prova (Vídeo/Foto)">
-    <button onclick="sendTicket('denuncias')">DENUNCIAR</button>
-</div>
+<section id="como-jogar">
+  <h2>Como Jogar</h2>
 
+  <div class="steps">
+    <div class="step">
+      <h3>1️⃣ Baixe o LAC Online</h3>
+      <p>Faça o download do jogo <b>Los Angeles Crimes</b> diretamente pela Play Store.</p>
+    </div>
+    <div class="step">
+      <h3>2️⃣ Entre no Servidor</h3>
+      <p>Abra o LAC Online, vá na lista de servidores e procure por <b>WW2 GUERRA MUNDIAL</b>.</p>
+    </div>
+    <div class="step">
+      <h3>3️⃣ Sem Código</h3>
+      <p>Não é necessário código para entrar. É só conectar e jogar.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © WW2 GUERRA MUNDIAL • LAC Online
+</footer>
+
+<!-- FIREBASE -->
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, updateDoc, getDocs, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyAs0eBwIlKmpcouUvVa8TF2_ke0t9QD6QE",
-        authDomain: "ww2-6c783.firebaseapp.com",
-        projectId: "ww2-6c783",
-        storageBucket: "ww2-6c783.firebasestorage.app",
-        messagingSenderId: "178695207566",
-        appId: "1:178695207566:web:c93cf5dea461664d5ae7df"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyA691vDLGFLHhb7gyZBNNbs98CN_n34fvs",
+    authDomain: "ww2lac2.firebaseapp.com",
+    projectId: "ww2lac2",
+    storageBucket: "ww2lac2.firebasestorage.app",
+    messagingSenderId: "555873394258",
+    appId: "1:555873394258:web:a97ba4de0d12c7cad0498b",
+    measurementId: "G-4X24J4SJWT"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-    let currentUser = localStorage.getItem('ww2_user') || null;
-    let isAdmin = false;
+  const avisosLista = document.getElementById("avisosLista");
 
-    // --- SISTEMA INICIAL ---
-    setTimeout(() => {
-        document.getElementById('loading-screen').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('loading-screen').style.display = 'none';
-            if(!currentUser) document.getElementById('auth-screen').style.display = 'flex';
-        }, 500);
-    }, 5000);
-
-    if (Notification.permission !== "granted") Notification.requestPermission();
-
-    // --- AUTH ---
-    window.handleAuth = async (type) => {
-        const u = document.getElementById('auth-user').value;
-        const p = document.getElementById('auth-pass').value;
-        if(u.length < 3) return alert("Nome muito curto!");
-
-        const q = query(collection(db, "users"), where("name", "==", u));
-        const snap = await getDocs(q);
-
-        if(type === 'register') {
-            if(!snap.empty) return alert("Nome já existe!");
-            await addDoc(collection(db, "users"), { name: u, pass: p, ban: false });
-            alert("Registrado! Faça login.");
-        } else {
-            let found = false;
-            snap.forEach(d => {
-                if(d.data().pass === p) {
-                    if(d.data().ban) { alert("VOCÊ ESTÁ BANIDO!"); return; }
-                    currentUser = u;
-                    localStorage.setItem('ww2_user', u);
-                    document.getElementById('auth-screen').style.display = 'none';
-                    found = true;
-                }
-            });
-            if(!found) alert("Senha ou Usuário incorreto.");
-        }
-    };
-
-    // --- LOGICA DE MIDIA ---
-    function renderMedia(url) {
-        if(!url) return '';
-        if(url.includes('mp4') || url.includes('video')) return `<video src="${url}" controls class="media-content"></video>`;
-        return `<img src="${url}" class="media-content">`;
-    }
-
-    // --- FEED & NOTIFICAÇÕES ---
-    onSnapshot(query(collection(db, "posts"), orderBy("date", "desc")), (snap) => {
-        const feed = document.getElementById('mainFeed');
-        feed.innerHTML = '';
-        snap.forEach(d => {
-            const data = d.data();
-            feed.innerHTML += `
-                <div class="post">
-                    <h2 style="color:#fff">${data.title}</h2>
-                    <p>${data.text}</p>
-                    ${renderMedia(data.media)}
-                    ${isAdmin ? `<button onclick="window.deleteData('posts','${d.id}')">APAGAR</button>` : ''}
-                </div>`;
-        });
+  const q = query(collection(db, "avisos"), orderBy("data", "desc"));
+  onSnapshot(q, (snapshot) => {
+    avisosLista.innerHTML = "";
+    snapshot.forEach(doc => {
+      const div = document.createElement("div");
+      div.className = "aviso";
+      div.textContent = doc.data().texto;
+      avisosLista.appendChild(div);
     });
+  });
 
-    // --- ADMIN SYSTEM ---
-    window.checkAdmin = () => {
-        if(isAdmin) { openModal('modalAdmin'); return; }
-        if(prompt("PASSCODE:") === "2012") { isAdmin = true; openModal('modalAdmin'); }
-    }
-
-    window.showAdminTab = (tab) => {
-        const area = document.getElementById('adminWorkArea');
-        if(tab === 'posts') {
-            area.innerHTML = `
-                <input id="pT" placeholder="Título">
-                <textarea id="pC" placeholder="Texto"></textarea>
-                <input id="pM" placeholder="Link Mídia">
-                <button onclick="window.publish('posts')">POSTAR FEED</button>
-                <button onclick="window.publish('avisos')">POSTAR AVISOS</button>
-            `;
-        } else if (tab === 'ban') {
-            area.innerHTML = `<input id="banUser" placeholder="Nome para banir"><button onclick="window.banSystem()">BANIR</button>`;
-        } else if (tab === 'inbox') {
-            area.innerHTML = `<h3>DENUNCIAS/SUGESTOES</h3><div id="adminInbox"></div>`;
-            loadInbox();
-        }
-    }
-
-    async function loadInbox() {
-        const qD = await getDocs(collection(db, "denuncias"));
-        const box = document.getElementById('adminInbox');
-        box.innerHTML = '';
-        qD.forEach(d => {
-            const data = d.data();
-            box.innerHTML += `<div class="post"><b>DENÚNCIA: ${data.n}</b><br>${data.m}<br>${renderMedia(data.link)}<button onclick="window.deleteData('denuncias','${d.id}')">RESOLVIDO/APAGAR</button></div>`;
-        });
-    }
-
-    // --- FIREBASE ACTIONS ---
-    window.publish = async (col) => {
-        const t = document.getElementById('pT').value;
-        const c = document.getElementById('pC').value;
-        const m = document.getElementById('pM').value;
-        await addDoc(collection(db, col), { title: t, text: c, media: m, author: currentUser, date: Date.now() });
-        if (Notification.permission === "granted") new Notification("WW2 LAC: Nova Atualização!");
-        alert("Publicado!");
-    }
-
-    window.sendTicket = async (col) => {
-        const title = document.getElementById(col === 'sugestoes' ? 'sugTitle' : 'denNome').value;
-        const desc = document.getElementById(col === 'sugestoes' ? 'sugDesc' : 'denMotivo').value;
-        const link = document.getElementById(col === 'sugestoes' ? 'sugLink' : 'denLink').value;
-        await addDoc(collection(db, col), { n: title, m: desc, link: link, user: currentUser, date: Date.now() });
-        alert("Enviado para o comando central!");
-        closeAll();
-    }
-
-    window.deleteData = async (col, id) => { if(confirm("Confirmar exclusão?")) await deleteDoc(doc(db, col, id)); }
-
-    window.openModal = (id) => { document.getElementById('overlay').style.display = 'block'; document.getElementById(id).style.display = 'block'; }
-    window.closeAll = () => { document.getElementById('overlay').style.display = 'none'; document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
-
-    document.getElementById('btnSendChat').onclick = async () => {
-        const t = document.getElementById('chatInput').value;
-        const m = document.getElementById('chatMedia').value;
-        if(t || m) {
-            await addDoc(collection(db, "chatGeral"), { text: t, media: m, user: currentUser, date: Date.now() });
-            document.getElementById('chatInput').value = '';
-            document.getElementById('chatMedia').value = '';
-        }
-    }
-
-    onSnapshot(query(collection(db, "chatGeral"), orderBy("date", "asc")), (snap) => {
-        const d = document.getElementById('chatDisplay'); d.innerHTML = '';
-        snap.forEach(docSnap => {
-            const m = docSnap.data();
-            d.innerHTML += `<div style="margin-bottom:15px; border-bottom:1px solid #222">
-                <small style="color:var(--war-orange)">${m.user}:</small><br>
-                <span>${m.text}</span><br>
-                ${renderMedia(m.media)}
-                ${isAdmin ? `<button style="width:auto; padding:2px; font-size:8px" onclick="window.deleteData('chatGeral','${docSnap.id}')">BANIR MSG</button>` : ''}
-            </div>`;
-        });
-        d.scrollTop = d.scrollHeight;
+  window.enviarAviso = async () => {
+    const texto = document.getElementById("novoAviso").value;
+    if (!texto.trim()) return;
+    await addDoc(collection(db, "avisos"), {
+      texto,
+      data: new Date()
     });
-
-    onSnapshot(query(collection(db, "avisos"), orderBy("date", "desc")), (snap) => {
-        const a = document.getElementById('listaAvisos'); a.innerHTML = '';
-        snap.forEach(d => {
-            const data = d.data();
-            a.innerHTML += `<div class="post"><h3>${data.title}</h3><p>${data.text}</p>${renderMedia(data.media)} ${isAdmin ? `<button onclick="window.deleteData('avisos','${d.id}')">REMOVER</button>` : ''}</div>`;
-        });
-    });
-
+    document.getElementById("novoAviso").value = "";
+  };
 </script>
+
+<script>
+  let admin = false;
+
+  function toggleAvisos() {
+    const box = document.getElementById("avisosBox");
+    box.style.display = box.style.display === "block" ? "none" : "block";
+  }
+
+  function loginAdmin() {
+    const senha = prompt("Digite a senha de administrador:");
+    if (senha === "2012") {
+      admin = true;
+      document.getElementById("adminPanel").style.display = "block";
+      alert("Modo administrador ativado");
+    } else {
+      alert("Senha incorreta");
+    }
+  }
+</script>
+
 </body>
 </html>
